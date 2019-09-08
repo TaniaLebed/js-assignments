@@ -38,7 +38,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-   throw new Error('Not implemented');
+   return Array(len).fill(0).map((x, i) => x = 2 * i + 1);
 }
 
 
@@ -200,7 +200,7 @@ function getTail(arr, n) {
  *    +'30,31,32,33,34'
  */
 function toCsvText(arr) {
-   throw new Error('Not implemented');
+   return arr.join("\n");
 }
 
 /**
@@ -234,7 +234,13 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-   throw new Error('Not implemented');
+   const newArr = arr.map(function(x, i, arr){
+      if(i > 0){
+         arr[i] += arr[i - 1];
+      }
+      return arr[i];
+   });
+   return newArr;
 }
 
 /**
@@ -304,7 +310,8 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-   throw new Error('Not implemented');
+   const arrOfPositives = arr.filter(x => (typeof x === 'number' && x > 0));
+   return arrOfPositives.length;
 }
  
 /** 
@@ -337,7 +344,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-   throw new Error('Not implemented');
+   return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 }
  
 /** 
@@ -353,7 +360,12 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-   throw new Error('Not implemented');
+   return arr.reduce(function(accumulator, currentValue){
+      if(!currentValue){
+         accumulator++;
+      }
+      return accumulator;
+   }, 0);
 }
 
 /**
@@ -371,7 +383,11 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-   throw new Error('Not implemented');
+   if(arr.includes(item)){
+      const sortedArr = arr.sort();
+      return sortedArr.lastIndexOf(item) - sortedArr.indexOf(item) + 1;
+   }
+   return 0;
 }
 
 /**
@@ -386,7 +402,7 @@ function findAllOccurences(arr, item) {
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
 function toStringList(arr) {
-   throw new Error('Not implemented');
+   return arr.join(',');
 }
 
 
