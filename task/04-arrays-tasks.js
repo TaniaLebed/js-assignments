@@ -383,11 +383,12 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-   if(arr.includes(item)){
-      const sortedArr = arr.sort();
-      return sortedArr.lastIndexOf(item) - sortedArr.indexOf(item) + 1;
-   }
-   return 0;
+   return arr.reduce(function(accumulator, currentValue){
+      if(currentValue === item){
+         accumulator++;
+      }
+      return accumulator;
+   }, 0);
 }
 
 /**
