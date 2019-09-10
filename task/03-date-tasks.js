@@ -22,7 +22,8 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   const date = new Date(value);
+   return date;
 }
 
 /**
@@ -37,7 +38,8 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   const date = new Date(value);
+   return date;
 }
 
 
@@ -56,9 +58,20 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   const year = date.getFullYear();
+   let isLeap;
+   if(year % 4 !== 0){
+      isLeap = false;
+   }else if(year % 100 !== 0){
+      isLeap = true;
+   }else if(year % 400 !== 0){
+      isLeap = false;
+   }
+   else{
+      isLeap = true;
+   }
+   return isLeap;
 }
-
 
 /**
  * Returns the string represention of the timespan between two dates.
