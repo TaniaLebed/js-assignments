@@ -274,7 +274,9 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-   throw new Error('Not implemented');
+   return arr.reduce((accumulator, currentValue, index) => {
+      return accumulator.concat(new Array(index + 1).fill(currentValue));
+   }, [])
 }
 
 
@@ -292,7 +294,7 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-   throw new Error('Not implemented');
+   return arr.reverse().slice(0, 3);
 }
  
  
@@ -310,8 +312,7 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-   const arrOfPositives = arr.filter(x => (typeof x === 'number' && x > 0));
-   return arrOfPositives.length;
+   return arr.filter(x => typeof x === 'number' && x > 0).length;
 }
  
 /** 
@@ -328,7 +329,10 @@ function getPositivesCount(arr) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(arr) {
-   throw new Error('Not implemented');
+   const arrayOfDigits = ['zero','one','two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+   return arr.sort((a, b) => {
+      return arrayOfDigits.indexOf(a) - arrayOfDigits.indexOf(b);
+   })
 }
 
 /** 
@@ -360,12 +364,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-   return arr.reduce(function(accumulator, currentValue){
-      if(!currentValue){
-         accumulator++;
-      }
-      return accumulator;
-   }, 0);
+   return arr.filter(x => !x).length;
 }
 
 /**
@@ -383,12 +382,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-   return arr.reduce(function(accumulator, currentValue){
-      if(currentValue === item){
-         accumulator++;
-      }
-      return accumulator;
-   }, 0);
+   return arr.filter(x => x === item).length;
 }
 
 /**
@@ -432,7 +426,22 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-   throw new Error('Not implemented');
+   return arr.sort((a, b) => {
+      if(a.country < b.country){
+         return -1;
+      }
+      if(a.country > b.country){
+         return 1;
+      }
+      else{
+         if(a.city < b.city){
+            return -1;
+         }
+         if(a.city > b.city){
+            return 1;
+         }
+      }
+   })
 }
 
 /**
@@ -472,7 +481,7 @@ function getIdentityMatrix(n) {
  */
 function getIntervalArray(start, end) {
    const array = Array(end - start + 1).fill(start);
-   const newArray = array.map(function(x, i, arr){
+   const newArray = array.map((x, i, arr) => {
       if(i > 0){
          arr[i] = arr[i -1] + 1;
       }
@@ -583,8 +592,21 @@ function getElementByIndexes(arr, indexes) {
  * 
  */
 function swapHeadAndTail(arr) {
-    throw new Error('Not implemented');
-}
+   const middleIndex = Math.floor(arr.length / 2);
+   let newStart = [];
+   let newEnd = arr.slice(0, middleIndex);
+
+   if(arr.length < 2){
+      return arr;
+   }
+   if(arr.length % 2 === 0){
+      newStart = arr.slice(middleIndex);
+      return newStart.concat(newEnd);
+   }else{
+      newStart = arr.slice(middleIndex + 1);
+      return newStart.concat(arr[middleIndex], newEnd);
+   } 
+ }
 
 
 module.exports = {
