@@ -346,8 +346,17 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
-}
+    let container;
+    do{ 
+        container = str;
+        str = str.replace(/\[\]/g, '');
+        str = str.replace(/\{\}/g, '');
+        str = str.replace(/\<\>/g, '');
+        str = str.replace(/\(\)/g, '');
+    } 
+    while (str != container);
+    return str === '';
+  }
 
 
 /**
@@ -406,7 +415,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -446,7 +455,19 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    let result = [];
+
+    for(let i = 0; i < m1.length; i++) {
+      result.push([]);
+      for(let j = 0; j < m2[0].length; j++) {
+        let sum = 0;
+        for(let k = 0; k < m1[0].length; k++) {
+          sum += m1[i][k] * m2[k][j];
+        }
+        result[i].push(sum);
+      }
+    }
+    return result;
 }
 
 
