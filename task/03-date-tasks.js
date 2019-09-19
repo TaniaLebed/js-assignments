@@ -57,18 +57,11 @@ function parseDataFromIso8601(value) {
  */
 function isLeapYear(date) {
    const year = date.getFullYear();
-   let isLeap;
-   if(year % 4 !== 0){
-      isLeap = false;
-   }else if(year % 100 !== 0){
-      isLeap = true;
-   }else if(year % 400 !== 0){
-      isLeap = false;
-   }
-   else{
-      isLeap = true;
-   }
-   return isLeap;
+   const divisibleBy4 = year % 4 === 0;
+   const divisibleBy100 = year % 100 === 0;
+   const divisibleBy400 = year % 400 === 0;
+
+   return divisibleBy4 && !divisibleBy100 || divisibleBy400;
 }
 
 /**
@@ -107,8 +100,15 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-   let angle = Math.abs(0.5 * (60 * date.getUTCHours() - 11 * date.getUTCMinutes()));
+   const hourHandAnglePerMinute = 0.5;
+   const minuteHandAnglePerMinute = 6;
+   const numOfMinutesPast12 = 60 * date.getUTCHours() + date.getUTCMinutes();
+   const hourHandAngle = hourHandAnglePerMinute * numOfMinutesPast12; 
+   const minuteHandAngle = minuteHandAnglePerMinute * date.getUTCMinutes();
+
+   let angle = Math.abs(hourHandAngle - minuteHandAngle);
    angle = angle > 180 ? Math.abs(angle - 360 * Math.round(angle / 360)) : angle;
+
    return angle * Math.PI / 180;
 }
 
