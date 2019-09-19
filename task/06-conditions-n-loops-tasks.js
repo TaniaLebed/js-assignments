@@ -30,15 +30,14 @@
  *
  */
 function getFizzBuzz(num) {
-    if(num % 15 === 0){
+    if (num % 15 === 0) {
         return "FizzBuzz";
-    }else if(num % 3 === 0){
+    } else if (num % 3 === 0) {
         return "Fizz";
-    }else if(num % 5 === 0){
+    } else if (num % 5 === 0) {
         return "Buzz";
-    }else{
-        return num;
     }
+    return num;
 }
 
 
@@ -56,9 +55,8 @@ function getFizzBuzz(num) {
 function getFactorial(n) {
     if(n === 1){
         return 1;
-    }else{
-        return n * getFactorial(n - 1);
     }
+    return n * getFactorial(n - 1);
 }
 
 
@@ -135,14 +133,10 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    if(rect1.top > rect2.top + rect2.height || //rect1 is to rect2's right 
-        rect1.top + rect1.height < rect2.top || //rect1 is to rect2's left
-        rect1.left > rect2.left + rect2.width || //rect1 is below rect2
-        rect1.left + rect1.width < rect2.left){ //rect1 is above rect2
-           return false; //no overlap
-       }else{
-           return true; //overlap
-       }
+    return !(rect1.top > rect2.top + rect2.height || //rect1 is to rect2's right 
+            rect1.top + rect1.height < rect2.top || //rect1 is to rect2's left
+            rect1.left > rect2.left + rect2.width || //rect1 is below rect2
+            rect1.left + rect1.width < rect2.left) //rect1 is above rect2
 }
 
 
@@ -173,7 +167,10 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    return ((Math.pow(point.x - circle.center.x, 2) + Math.pow(point.y - circle.center.y, 2)) < Math.pow(circle.radius, 2));
+    const horizontalDistance = point.x - circle.center.x;
+    const verticalDistance = point.y - circle.center.y;
+
+    return ((Math.pow(horizontalDistance, 2) + Math.pow(verticalDistance, 2)) < Math.pow(circle.radius, 2));
 }
 
 
@@ -189,11 +186,12 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    for(let i = 0; i < str.length; i++){
-        if(str.indexOf(str[i]) === str.lastIndexOf(str[i])){
+    for (let i = 0; i < str.length; i++) {
+        if (str.indexOf(str[i]) === str.lastIndexOf(str[i])){
             return str[i];
         }
     }
+
     return null;
 }
 
@@ -220,11 +218,12 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    const left = isStartIncluded ? "[" : "(";
-    const right = isEndIncluded ? "]" : ")";
+    const leftBracket  = isStartIncluded ? "[" : "(";
+    const rightBracket = isEndIncluded ? "]" : ")";
     let numberString = [a, b].sort().join(", ");
-    let resultString = left + numberString + right;
-    return resultString;
+    let interval = leftBracket + numberString + rightBracket;
+
+    return interval;
 }
 
 
@@ -258,7 +257,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    return Number(num.toString().split("").reverse().join(""));
+    return +num.toString().split("").reverse().join("");
 }
 
 
@@ -284,11 +283,11 @@ function reverseInteger(num) {
  */
 function isCreditCardNumber(ccn) {
     let strCCN = ccn.toString();
-    let sum = Number(strCCN[strCCN.length - 1]);
+    let sum = +strCCN[strCCN.length - 1];
     let nDigits = strCCN.length;
     let parity = nDigits % 2;
     for(let i = 0; i <= nDigits - 2; i++){
-        let digit = Number(strCCN[i]);
+        let digit = +strCCN[i];
         if(i % 2 === parity){
             digit *= 2;
         }
@@ -315,12 +314,13 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    let array = num.toString().split("").map(Number);
+    let array = num.toString().split("").map(value => {
+        return +value;
+    });
     let sum = array.reduce((accumulator, currentValue) => accumulator + currentValue);
-    while(sum > 9){
-        sum -= 9;
-    }
-    return sum;
+    sum = sum.toString().length > 1 ? getDigitalRoot(sum) : sum;
+        
+    return +sum; 
 }
 
 
@@ -456,17 +456,21 @@ function getCommonDirectoryPath(pathes) {
  */
 function getMatrixProduct(m1, m2) {
     let result = [];
+    const numOfRowsM1 = m1.length;
+    const lengthOfRowM1 = m1[0].length;
+    const lengthOfRowM2 = m2[0].length;
 
-    for(let i = 0; i < m1.length; i++) {
+    for (let i = 0; i < numOfRowsM1; i++) {
       result.push([]);
-      for(let j = 0; j < m2[0].length; j++) {
+      for (let j = 0; j < lengthOfRowM2; j++) {
         let sum = 0;
-        for(let k = 0; k < m1[0].length; k++) {
+        for (let k = 0; k < lengthOfRowM1; k++) {
           sum += m1[i][k] * m2[k][j];
         }
         result[i].push(sum);
       }
     }
+
     return result;
 }
 
