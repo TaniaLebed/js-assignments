@@ -73,7 +73,10 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    const horizontalDistance = x2 - x1;
+    const verticallDistance = y2 - y1;
+
+    return Math.sqrt(Math.pow(horizontalDistance, 2) + Math.pow(verticallDistance, 2));
 }
 
 /**
@@ -111,7 +114,11 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-    const cos = (x1 * x2 + y1 * y2) / (Math.sqrt(x1*x1 + y1*y1) * Math.sqrt(x2*x2 + y2*y2));
+    const dotProduct = (x1 * x2 + y1 * y2);
+    const lengthOfFirstVector = Math.sqrt(x1*x1 + y1*y1);
+    const lengthOfSecondVector = Math.sqrt(x2*x2 + y2*y2);
+    const cos = dotProduct / (lengthOfFirstVector * lengthOfSecondVector);
+
     return Math.acos(cos);
 }
 
@@ -128,8 +135,10 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
  *     0     => 0
  */
 function getLastDigit(value) {
-    let x = value.toString();
-	return Number(x.charAt(x.length - 1));
+    const stringValue = value.toString();
+    const lastIndex = stringValue.length - 1;
+
+	return +stringValue.charAt(lastIndex);
 }
 
 
@@ -145,7 +154,7 @@ function getLastDigit(value) {
  * '-525.5'     => -525.5
  */
 function parseNumberFromString(value) {
-    return Number(value);
+    return +value;
 }
 
 /**
@@ -183,8 +192,11 @@ function getParallelipidedDiagonal(a,b,c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-    let value = Math.round((num / Math.pow(10, pow)));
-    return value * Math.pow(10, pow);
+    const powerOfTen = Math.pow(10, pow);
+    const roundedPartOfNum = Math.round(num / powerOfTen);
+    const roundedNum = roundedPartOfNum * powerOfTen;
+    
+    return roundedNum;
   }
 
 /**
@@ -205,18 +217,13 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-    if(n <= 3){
+    if (n <= 3) {
         return n > 1;
     }
-    else if (n % 2 === 0 || n % 3 === 0){
-        return false;
-    }
-    let i = 5;
-    while(i*i <= n){
-        if(n % i === 0 || n % (i + 2) === 0){
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) {
             return false;
         }
-        i += 6;
     }
     return true;
 }
@@ -238,7 +245,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-    return Number(value) || def;
+    return +value || def;
 }
 
 module.exports = {
