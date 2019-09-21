@@ -391,7 +391,49 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    const round = (value) => {
+        return value > Math.floor(value) + 0.5 ? Math.round(value) : Math.floor(value);
+    };
+
+    const diff = (endDate - startDate) / 1000;
+    const minute = 60;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const month = 30 * day;
+    const year = 365 * day;
+
+    if (diff <= 45) {
+        return "a few seconds ago";
+    } 
+    if (diff <= 90) {
+        return "a minute ago";
+    }
+    if (diff <= 45 * minute) {
+        return `${round(diff / minute)} minutes ago`;
+    }
+    if (diff <= 90 * minute) {
+        return "an hour ago";
+    }
+    if (diff <= 22 * hour) {
+        return `${round(diff / hour)} hours ago`;
+    } 
+    if (diff <= 36 * hour) {
+        return "a day ago";
+    }
+    if (diff <= 25 * day) {
+        return `${round(diff / day)} days ago`;
+    }
+    if (diff <= 45 * day) {
+        return "a month ago";
+    } 
+    if (diff <= 345 * day) {
+        return `${round(diff / month)} months ago`;
+    }  
+    if (diff <= 545 * day) {
+        return "a year ago";     
+    }
+
+    return `${round(diff / year)} years ago`;
 }
 
 
@@ -432,7 +474,21 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    const splitArr = pathes.map(value => {
+        return value.split('/');
+    });
+    let result = '';
+
+    for(let i = 0; i < splitArr[0].length; i++){
+        if (splitArr.every(value => {
+            return value[i] === splitArr[0][i];
+        })){
+            result += splitArr[0][i].concat('/');
+        }
+        else {
+            return result;
+        }
+    }
 }
 
 
@@ -506,7 +562,67 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    const winCount = 3;
+    const len = position.length;
+    let count;
+
+    /* cheking rows */
+    for (let i = 0; i < len; i++) {
+        count = 1;
+
+        for (let j = 0; j < len - 1; j++) {
+            if (position[i][j] === position[i][j + 1] &&
+                position[i][j] !== undefined) {
+                count++;
+            } 
+            if (count === winCount) {
+                return position[i][j];
+            }
+        }
+    }
+
+    /* cheking columns */
+    for (let i = 0; i < len; i++) { 
+        count = 1;
+
+        for (let j = 0; j < len - 1; j++) {
+            if (position[j][i] === position[j + 1][i] &&
+                position[j][i] !== undefined) {
+                count++;
+            } 
+            if (count === winCount) {
+                return position[j][i];
+            }
+        }
+    }
+
+    /* checking diagonals */
+    count = 1;
+    for (let i = 0; i < len - 1; i++) {
+        if (position[i][i] === position[i + 1][i + 1] &&
+            position[i][i] !== undefined) {
+            count++;
+        } 
+        if (count === winCount) {
+            return position[i][i];
+        }
+    }
+
+    
+    for (let i = 0; i < len - 1; i++) {
+        count = 1;
+        for (let j = len - 1; ; j--){
+            if (position[i][j] === position[i + 1][j - 1] &&
+                position[i][j] !== undefined) {
+                count++;
+            } 
+            if (count === winCount) {
+                return position[i][j];
+            }
+        }
+    }
+
+    return undefined;
 }
 
 
