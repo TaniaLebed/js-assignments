@@ -38,8 +38,8 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-   const newArr = new Array(len);
-   return newArr.fill(0).map((value, index) => {
+   const newArr = (new Array(len).fill(0));
+   return newArr.map((value, index) => {
       return value = 2 * index + 1;
    });
 }
@@ -292,8 +292,8 @@ function getSecondItems(arr) {
  */
 function propagateItemsByPositionIndex(arr) {
    return arr.reduce((accumulator, currentValue, index) => {
-      let newArr = new Array(index + 1);
-      return accumulator.concat(newArr.fill(currentValue));
+      let newArr = (new Array(index + 1).fill(currentValue));
+      return accumulator.concat(newArr);
    }, [])
 }
 
@@ -483,7 +483,13 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-   throw new Error('Not implemented');
+   let newArr = (new Array(n).fill(0));
+
+   return newArr.map((value, index) => {
+      value = (new Array(n).fill(0));
+      value[index] = 1;
+      return value;
+   });
 }
 
 /**
@@ -500,8 +506,7 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-   let array = new Array(end - start + 1);
-   array.fill(start);
+   let array = (new Array(end - start + 1).fill(start));
 
    return array.map((value, index) => {
       return value + index;
@@ -556,7 +561,18 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-   throw new Error('Not implemented');
+   let map = array.reduce((accumulator, currentValue) => {
+      let key = keySelector(currentValue);
+      let value = valueSelector(currentValue);
+      let arr = accumulator.get(key) || [];
+
+      arr.push(value);
+      accumulator.set(key, arr);
+
+      return accumulator;
+   }, new Map);
+
+   return map;
 }
 
 
@@ -572,7 +588,9 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    throw new Error('Not implemented');
+   return arr.reduce((accumulator, currentValue) => {
+      return accumulator.concat(childrenSelector(currentValue));
+   }, []);
 }
 
 
@@ -589,7 +607,9 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
+   return indexes.reduce((accumulator, currentValue) => {
+      return accumulator[currentValue];
+   }, arr);
 }
 
 
