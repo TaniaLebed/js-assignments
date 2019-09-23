@@ -40,7 +40,7 @@ function findElement(arr, value) {
 function generateOdds(len) {
    const newArr = (new Array(len).fill(0));
    return newArr.map((value, index) => {
-      return value = 2 * index + 1;
+      return 2 * index + 1;
    });
 }
 
@@ -157,7 +157,11 @@ function getStringsLength(arr) {
  *    [ 1, 'b', 'c'], 0, 'x'  => [ 'x', 1, 'b', 'c' ]
  */
 function insertItem(arr, item, index) {
-   return arr.splice(index, 0, item); 
+   /* let newArr = arr.slice(0, index);
+   newArr.push(item, ...arr.slice(index));
+   console.log(newArr); //Array(5) [1, 2, 3, 4, 5]
+   return newArr;  */
+   return arr.splice(index, 0, item);
 }
 
 /**
@@ -247,13 +251,12 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-   let newArr = arr.slice();
-   newArr = newArr.map((value, index, arr) => {
-      if (index > 0) {
-         arr[index] += arr[index - 1];
-      }
-      return arr[index];
-   });
+   let newArr = [];
+   arr.reduce((accumulator, currentValue) => {
+      accumulator += currentValue;
+      newArr.push(accumulator);
+      return accumulator;
+   }, 0);
 
    return newArr;
 }
@@ -453,14 +456,7 @@ function toStringList(arr) {
  */
 function sortCitiesArray(arr) {
    return arr.sort((a, b) => {
-      if (a.country < b.country) {
-         return -1;
-      }
-      if (a.country > b.country) {
-         return 1;
-      } else {
-         return a.city < b.city ? -1 : 1;
-      }
+      return a.country.localeCompare(b.country) || a.city.localeCompare(b.city);
    })
 }
 
@@ -486,9 +482,9 @@ function getIdentityMatrix(n) {
    let newArr = (new Array(n).fill(0));
 
    return newArr.map((value, index) => {
-      value = (new Array(n).fill(0));
-      value[index] = 1;
-      return value;
+      let current = (new Array(n).fill(0));
+      current[index] = 1;
+      return current;
    });
 }
 
@@ -638,9 +634,8 @@ function swapHeadAndTail(arr) {
 
    if (arr.length % 2 === 0) {
       return newStart.concat(newEnd);
-   } else {
-      return newStart.slice(1).concat(arr[middleIndex], newEnd);
-   } 
+   }
+   return newStart.slice(1).concat(arr[middleIndex], newEnd);
  }
 
 
